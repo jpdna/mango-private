@@ -18,13 +18,16 @@
 package org.bdgenomics.mango.cli
 
 import java.io.FileNotFoundException
+import java.util
+
+import com.google.protobuf.Message
 import net.liftweb.json.Serialization.write
 import net.liftweb.json._
 import org.apache.spark.SparkContext
 import org.bdgenomics.adam.models.{ ReferenceRegion, SequenceDictionary }
-import org.bdgenomics.mango.core.util.{ VizUtils, VizCacheIndicator }
+import org.bdgenomics.mango.core.util.{ VizCacheIndicator, VizUtils }
 import org.bdgenomics.mango.filters._
-import org.bdgenomics.mango.layout.{ VariantJson, GenotypeJson }
+import org.bdgenomics.mango.layout.{ GenotypeJson, VariantJson }
 import org.bdgenomics.mango.models._
 import org.bdgenomics.utils.cli._
 import org.bdgenomics.utils.instrumentation.Metrics
@@ -35,6 +38,10 @@ import org.scalatra._
 import ga4gh.VariantServiceOuterClass
 import ga4gh.VariantServiceOuterClass.SearchVariantsRequest
 import ga4gh.VariantServiceOuterClass.SearchVariantsRequest.Builder
+import shaded.ga4gh.com.google.protobuf.Descriptors.FieldDescriptor
+
+import scala.collection.JavaConverters._
+import scala.collection.mutable
 
 object VizTimers extends Metrics {
   //HTTP requests
@@ -714,9 +721,20 @@ class VizReads(protected val args: VizReadsArgs) extends BDGSparkCommand[VizRead
       // Temporary code to test the GA4GH schema PB derived classes
       val x: Builder = VariantServiceOuterClass.SearchVariantsRequest.newBuilder()
       x.setStart(223)
+      x.setEnd(999)
       val z: SearchVariantsRequest = x.build()
-      z.toString
-      print("z.toString: " + z)
+      val z1: java.util.Map[FieldDescriptor, AnyRef] = z.getAllFields
+      val z3: mutable.Map[String, AnyRef] = z1.asScala map {
+        case (key, value) => {
+          (key.toString.replace("ga4gh.SearchVariantsRequest.", ""), value)
+        }
+      }
+
+      print("z3" + z3)
+
+      //val p: String = com.google.protobuf.util.JsonFormat.printer().print(z.)
+      //print("p: " + p)
+      //print("z1.toString: " + z1.toString)
       ///////////////////////////////
 
       VizReads.server.join()
