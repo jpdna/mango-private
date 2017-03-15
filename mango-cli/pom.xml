@@ -183,5 +183,9 @@
       <artifactId>hadoop-bam</artifactId>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+      <groupId>org.ga4gh</groupId>
+      <artifactId>ga4gh-schemas</artifactId>
+    </dependency>
   </dependencies>
 </project>

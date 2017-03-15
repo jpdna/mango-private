@@ -32,6 +32,9 @@ import org.bdgenomics.utils.misc.Logging
 import org.fusesource.scalate.TemplateEngine
 import org.kohsuke.args4j.{ Argument, Option => Args4jOption }
 import org.scalatra._
+import ga4gh.VariantServiceOuterClass
+import ga4gh.VariantServiceOuterClass.SearchVariantsRequest
+import ga4gh.VariantServiceOuterClass.SearchVariantsRequest.Builder
 
 object VizTimers extends Metrics {
   //HTTP requests
@@ -706,6 +709,16 @@ class VizReads(protected val args: VizReadsArgs) extends BDGSparkCommand[VizRead
       VizReads.server.start()
       println("View the visualization at: " + args.port)
       println("Quit at: /quit")
+
+      ////////////////////////////////
+      // Temporary code to test the GA4GH schema PB derived classes
+      val x: Builder = VariantServiceOuterClass.SearchVariantsRequest.newBuilder()
+      x.setStart(223)
+      val z: SearchVariantsRequest = x.build()
+      z.toString
+      print("z.toString: " + z)
+      ///////////////////////////////
+
       VizReads.server.join()
     }
 
