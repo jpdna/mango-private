@@ -18,6 +18,7 @@
 package org.bdgenomics.mango.cli
 
 import java.io.FileNotFoundException
+import java.util
 
 import com.google.protobuf.Message
 import net.liftweb.json.Serialization.write
@@ -39,6 +40,13 @@ import ga4gh.VariantServiceOuterClass.SearchVariantsRequest
 import ga4gh.VariantServiceOuterClass.SearchVariantsRequest.Builder
 import shaded.ga4gh.com.google.protobuf.Descriptors.FieldDescriptor
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.core.JsonGenerationException
+import com.fasterxml.jackson.core
+import com.fasterxml.jackson.core.`type`.TypeReference
+
+import scala.beans.BeanProperty
+//import com.fasterxml.jackson.core.`type`.TypeReferencetype.TypeReference
+import com.fasterxml.jackson.databind.JsonMappingException
 import shaded.ga4gh.com.google.protobuf.ProtocolStringList
 
 import scala.collection.JavaConverters._
@@ -439,12 +447,22 @@ class VizServlet extends ScalatraServlet {
   }
 
   get("/variants/:key/:ref") {
+    print("Here was are in /variants/ end ppint")
     VizTimers.VarRequest.time {
       if (!VizReads.variantsExist)
         VizReads.errors.notFound
       else {
+        print("Here is start: " + params("start").toLong)
+        print("Before try end")
+        print("Here is end: " + params("end").toLong)
+        print("after try end")
+
         val viewRegion = ReferenceRegion(params("ref"), params("start").toLong,
           VizUtils.getEnd(params("end").toLong, VizReads.globalDict(params("ref"))))
+
+        // val viewRegion = ReferenceRegion(params("ref"), params("start").toLong,
+        //  params("end").toLong, VizReads.globalDict(params("ref"))))
+
         val key: String = params("key")
         contentType = "json"
 
@@ -474,6 +492,90 @@ class VizServlet extends ScalatraServlet {
           } else VizReads.errors.noContent(viewRegion)
         } else VizReads.errors.outOfBounds
       }
+    }
+  }
+
+  post("/ga4gh/variants/search") {
+    VizTimers.VarRequest.time {
+      //val myData = params("variantSetId")
+      //print("from post myData: " + myData + "\n")
+      val jsonString = request.body
+
+      val mapper = new ObjectMapper()
+
+      print("\n############\n")
+      print("jsonString: " + jsonString)
+      print("\n###########\n")
+
+      case class BDGSearchVariantRequest(variantSetID: String,
+                                         start: Int,
+                                         end: Int,
+                                         pageSize: Int,
+                                         pageToken: String,
+                                         callSetIds: List[String]),
+
+      val jplift1 = net.liftweb.json.parse(jsonString)
+      val jplift2 = jplift1.extract[JPSearchVariantRequest]
+
+      print("This is jplift2: " + jplift2)
+
+      /*
+      var myMap: java.util.HashMap[String, Object] = new java.util.HashMap[String, Object]()
+      myMap = mapper.readValue(jsonString, new TypeReference[java.util.Map[String, Any]]() {})
+      val myVariantCallSetIDs = myMap.get("callSetIds")
+      print("myVariantCAllsetIds:" + myVariantCallSetIDs.as)
+*/
+
+      //var jpmap1: java.util.Map[String, String] = new java.util.HashMap[String, String]()
+      //jpmap1 = mapper.readValue(jsonString, new TypeReference[java.util.HashMap[String, Object]]() {})
+
+      //print("\n#######\nHere is jpmap1: " + jpmap1)
+      //print("\n#####\njpmap1: ???" + jpmap1.get("callSetIds") + "???")
+
+      //print("\n#####\njpmap1 element 1: " + jpmap1.get("callSetIds")(0))
+
+      //print("Here is myMap:" + myMap)
+
+      //print("here is jsonString:" + jsonString)
+
+      /*
+      if (!VizReads.variantsExist)
+        VizReads.errors.notFound
+      else {
+        val viewRegion = ReferenceRegion(params("reference_name"), params("start").toLong,
+          VizUtils.getEnd(params("end").toLong, VizReads.globalDict(params("reference_name"))))
+        val key: String = params("variant_set_id")
+        contentType = "json"
+
+        // if region is in bounds of reference, return data
+        val dictOpt = VizReads.globalDict(viewRegion.referenceName)
+        if (dictOpt.isDefined) {
+          var results: Option[String] = None
+          val binning: Int =
+            try {
+              params("binning").toInt
+            } catch {
+              case e: Exception => 1
+            }
+          VizReads.variantsWait.synchronized {
+            // region was already collected, grab from cache
+            if (VizCacheIndicator(viewRegion, binning) != VizReads.variantsIndicator) {
+              VizReads.variantsCache = VizReads.variantContextData.get.getJson(viewRegion,
+                VizReads.showGenotypes,
+                binning)
+              VizReads.variantsIndicator = VizCacheIndicator(viewRegion, binning)
+            }
+            results = VizReads.variantsCache.get(key)
+          }
+          if (results.isDefined) {
+            // extract variants only and parse to stringified json
+            Ok(results.get)
+          } else VizReads.errors.noContent(viewRegion)
+        } else VizReads.errors.outOfBounds
+      }
+    }
+    */
+
     }
   }
 
@@ -744,7 +846,7 @@ class VizReads(protected val args: VizReadsArgs) extends BDGSparkCommand[VizRead
 
       val p: ProtocolStringList = x.getCallSetIdsList()
 
-      val mySearchVariantsRequest = Map("variant_set_id" -> x.getVariantSetId(),
+      val mySearchVariantsRequest: util.Map[String, Any] = Map("variant_set_id" -> x.getVariantSetId(),
         "call_set_ids" -> x.getCallSetIdsList,
         "start" -> x.getStart()).asJava
 
