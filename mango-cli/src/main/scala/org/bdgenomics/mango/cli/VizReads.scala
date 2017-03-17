@@ -18,7 +18,6 @@
 package org.bdgenomics.mango.cli
 
 import java.io.FileNotFoundException
-import java.util
 
 import com.google.protobuf.Message
 import net.liftweb.json.Serialization.write
@@ -39,6 +38,8 @@ import ga4gh.VariantServiceOuterClass
 import ga4gh.VariantServiceOuterClass.SearchVariantsRequest
 import ga4gh.VariantServiceOuterClass.SearchVariantsRequest.Builder
 import shaded.ga4gh.com.google.protobuf.Descriptors.FieldDescriptor
+import com.fasterxml.jackson.databind.ObjectMapper
+import shaded.ga4gh.com.google.protobuf.ProtocolStringList
 
 import scala.collection.JavaConverters._
 import scala.collection.mutable
@@ -720,17 +721,41 @@ class VizReads(protected val args: VizReadsArgs) extends BDGSparkCommand[VizRead
       ////////////////////////////////
       // Temporary code to test the GA4GH schema PB derived classes
       val x: Builder = VariantServiceOuterClass.SearchVariantsRequest.newBuilder()
+      x.setVariantSetId("jp123varsetID")
+      //x.setCallSetIds(0,"jpcallset1")
+      x.addAllCallSetIds(List("jocallset1", "jpcallset2").asJava)
+      x.setReferenceName("myref")
       x.setStart(223)
       x.setEnd(999)
-      val z: SearchVariantsRequest = x.build()
-      val z1: java.util.Map[FieldDescriptor, AnyRef] = z.getAllFields
-      val z3: mutable.Map[String, AnyRef] = z1.asScala map {
-        case (key, value) => {
-          (key.toString.replace("ga4gh.SearchVariantsRequest.", ""), value)
-        }
-      }
 
-      print("z3" + z3)
+      //val z: SearchVariantsRequest = x.build()
+      //val z1: java.util.Map[FieldDescriptor, AnyRef] = z.getAllFields
+      //val z3: mutable.Map[String, AnyRef] = z1.asScala map {
+      //  case (key, value) => {
+      //    (key.toString.replace("ga4gh.SearchVariantsRequest.", ""), value)
+      //  }
+      // }
+
+      //SearchVariantsRequest.t
+
+      //val jp1 = new com.google.protobuf.util.JsonFormat.Printer()
+      //z.
+      //val jp2 = jp1.print(z.)
+
+      val p: ProtocolStringList = x.getCallSetIdsList()
+
+      val mySearchVariantsRequest = Map("variant_set_id" -> x.getVariantSetId(),
+        "call_set_ids" -> x.getCallSetIdsList,
+        "start" -> x.getStart()).asJava
+
+      print("print direct mySearchVariantsRquest:" + mySearchVariantsRequest + "\n\n")
+
+      val mapper = new ObjectMapper()
+      val myJsonString: String = mapper.writeValueAsString(mySearchVariantsRequest)
+      print("myJsonString: " + myJsonString)
+      print("dude!!!!")
+
+      //print("z3" + z3)
 
       //val p: String = com.google.protobuf.util.JsonFormat.printer().print(z.)
       //print("p: " + p)
