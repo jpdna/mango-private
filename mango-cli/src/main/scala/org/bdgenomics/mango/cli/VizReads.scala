@@ -507,29 +507,25 @@ class VizServlet extends ScalatraServlet {
       print("jsonString: " + jsonString)
       print("\n###########\n")
 
-      case class BDGSearchVariantRequest(variantSetID: String,
-                                         start: Int,
-                                         end: Int,
-                                         pageSize: Int,
+      case class BDGSearchVariantRequest(variantSetId: String,
+                                         start: String,
+                                         end: String,
+                                         pageSize: String,
                                          pageToken: String,
                                          referenceName: String,
-                                         callSetIds: List[String]),
+                                         callSetIds: List[String])
 
       val jplift1 = net.liftweb.json.parse(jsonString)
       val jplift2 = jplift1.extract[BDGSearchVariantRequest]
 
-
-
       print("This is jplift2: " + jplift2)
-
 
       if (!VizReads.variantsExist)
         VizReads.errors.notFound
       else {
 
-
-       // val viewRegion = ReferenceRegion(params("reference_name"), params("start").toLong,
-       //   VizUtils.getEnd(params("end").toLong, VizReads.globalDict(params("reference_name"))))
+        // val viewRegion = ReferenceRegion(params("reference_name"), params("start").toLong,
+        //   VizUtils.getEnd(params("end").toLong, VizReads.globalDict(params("reference_name"))))
 
         /*
         val viewRegion = ReferenceRegion(  params("reference_name"),
@@ -537,16 +533,11 @@ class VizServlet extends ScalatraServlet {
                                            VizUtils.getEnd(params("end").toLong, VizReads.globalDict(params("reference_name")))
                                          )
 */
-        val viewRegion = ReferenceRegion(  jplift2.referenceName,
-                                           jplift2.start.toLong,
-                                           VizUtils.getEnd(jplift2.start.toLong, VizReads.globalDict(params("reference_name")))
-        )
+        val viewRegion = ReferenceRegion(jplift2.referenceName,
+          jplift2.start.toLong,
+          VizUtils.getEnd(jplift2.start.toLong, VizReads.globalDict(jplift2.referenceName)))
 
-
-
-
-
-        val key: String = jplift2.variantSetID
+        val key: String = jplift2.variantSetId
         contentType = "json"
 
         // if region is in bounds of reference, return data
@@ -577,9 +568,7 @@ class VizServlet extends ScalatraServlet {
       }
     }
 
-
-    }
-  
+  }
 
   get("/features/:key/:ref") {
     VizTimers.FeatRequest.time {
