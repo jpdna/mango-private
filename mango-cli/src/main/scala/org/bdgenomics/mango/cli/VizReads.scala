@@ -38,16 +38,16 @@ import org.scalatra._
 import ga4gh.VariantServiceOuterClass
 import ga4gh.VariantServiceOuterClass.SearchVariantsRequest
 import ga4gh.VariantServiceOuterClass.SearchVariantsRequest.Builder
-import shaded.ga4gh.com.google.protobuf.Descriptors.FieldDescriptor
+//import shaded.ga4gh.com.google.protobuf.Descriptors.FieldDescriptor
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.core.JsonGenerationException
-import com.fasterxml.jackson.core
-import com.fasterxml.jackson.core.`type`.TypeReference
+//import com.fasterxml.jackson.core.JsonGenerationException
+//import com.fasterxml.jackson.core
+//import com.fasterxml.jackson.core.`type`.TypeReference
 
-import scala.beans.BeanProperty
+//import scala.beans.BeanProperty
 //import com.fasterxml.jackson.core.`type`.TypeReferencetype.TypeReference
-import com.fasterxml.jackson.databind.JsonMappingException
-import shaded.ga4gh.com.google.protobuf.ProtocolStringList
+//import com.fasterxml.jackson.databind.JsonMappingException
+//import shaded.ga4gh.com.google.protobuf.ProtocolStringList
 
 import scala.collection.JavaConverters._
 import scala.collection.mutable
@@ -452,14 +452,15 @@ class VizServlet extends ScalatraServlet {
       if (!VizReads.variantsExist)
         VizReads.errors.notFound
       else {
-        print("Here is start: " + params("start").toLong)
-        print("Before try end")
-        print("Here is end: " + params("end").toLong)
-        print("after try end")
+        //print("Here is start: " + params("start").toLong)
+        //print("Before try end")
+        //print("Here is end: " + params("end").toLong)
+        //print("after try end")
 
         val viewRegion = ReferenceRegion(params("ref"), params("start").toLong,
           VizUtils.getEnd(params("end").toLong, VizReads.globalDict(params("ref"))))
 
+        print("\n### viewRegion: " + viewRegion)
         // val viewRegion = ReferenceRegion(params("ref"), params("start").toLong,
         //  params("end").toLong, VizReads.globalDict(params("ref"))))
 
@@ -486,6 +487,7 @@ class VizServlet extends ScalatraServlet {
             }
             results = VizReads.variantsCache.get(key)
           }
+          print("\n### GET reults: " + results)
           if (results.isDefined) {
             // extract variants only and parse to stringified json
             Ok(results.get)
@@ -503,9 +505,9 @@ class VizServlet extends ScalatraServlet {
 
       val mapper = new ObjectMapper()
 
-      print("\n############\n")
-      print("jsonString: " + jsonString)
-      print("\n###########\n")
+      //print("\n############\n")
+      //print("jsonString: " + jsonString)
+      //print("\n###########\n")
 
       case class BDGSearchVariantRequest(variantSetId: String,
                                          start: String,
@@ -518,7 +520,7 @@ class VizServlet extends ScalatraServlet {
       val jplift1 = net.liftweb.json.parse(jsonString)
       val jplift2 = jplift1.extract[BDGSearchVariantRequest]
 
-      print("This is jplift2: " + jplift2)
+      print("###\nThis is jplift2: " + jplift2)
 
       if (!VizReads.variantsExist)
         VizReads.errors.notFound
@@ -535,9 +537,12 @@ class VizServlet extends ScalatraServlet {
 */
         val viewRegion = ReferenceRegion(jplift2.referenceName,
           jplift2.start.toLong,
-          VizUtils.getEnd(jplift2.start.toLong, VizReads.globalDict(jplift2.referenceName)))
+          VizUtils.getEnd(jplift2.end.toLong, VizReads.globalDict(jplift2.referenceName)))
 
-        val key: String = jplift2.variantSetId
+        print("\n### viewRegion: " + viewRegion)
+
+        //val key: String = jplift2.variantSetId
+        val key: String = "ALL_chr17_7500000-7515000_phase3_shapeit2_mvncall_integrated_v5a_20130502_genotypes_vcf"
         contentType = "json"
 
         // if region is in bounds of reference, return data
@@ -560,6 +565,8 @@ class VizServlet extends ScalatraServlet {
             }
             results = VizReads.variantsCache.get(key)
           }
+          print("\n#### Results: " + results)
+
           if (results.isDefined) {
             // extract variants only and parse to stringified json
             Ok(results.get)
@@ -813,6 +820,7 @@ class VizReads(protected val args: VizReadsArgs) extends BDGSparkCommand[VizRead
 
       ////////////////////////////////
       // Temporary code to test the GA4GH schema PB derived classes
+      /*
       val x: Builder = VariantServiceOuterClass.SearchVariantsRequest.newBuilder()
       x.setVariantSetId("jp123varsetID")
       //x.setCallSetIds(0,"jpcallset1")
@@ -820,7 +828,7 @@ class VizReads(protected val args: VizReadsArgs) extends BDGSparkCommand[VizRead
       x.setReferenceName("myref")
       x.setStart(223)
       x.setEnd(999)
-
+  */
       //val z: SearchVariantsRequest = x.build()
       //val z1: java.util.Map[FieldDescriptor, AnyRef] = z.getAllFields
       //val z3: mutable.Map[String, AnyRef] = z1.asScala map {
@@ -835,6 +843,8 @@ class VizReads(protected val args: VizReadsArgs) extends BDGSparkCommand[VizRead
       //z.
       //val jp2 = jp1.print(z.)
 
+      /*
+
       val p: ProtocolStringList = x.getCallSetIdsList()
 
       val mySearchVariantsRequest: util.Map[String, Any] = Map("variant_set_id" -> x.getVariantSetId(),
@@ -847,6 +857,7 @@ class VizReads(protected val args: VizReadsArgs) extends BDGSparkCommand[VizRead
       val myJsonString: String = mapper.writeValueAsString(mySearchVariantsRequest)
       print("myJsonString: " + myJsonString)
       print("dude!!!!")
+    */
 
       //print("z3" + z3)
 
