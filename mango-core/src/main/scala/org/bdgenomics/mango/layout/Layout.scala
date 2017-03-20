@@ -18,10 +18,14 @@
  */
 package org.bdgenomics.mango.layout
 
+import java.util
+
 import net.liftweb.json.Serialization.write
 import net.liftweb.json._
 import org.bdgenomics.formats.avro.Variant
 import java.util.ArrayList
+import collection.JavaConverters._
+import collection.mutable._
 
 /**
  * This file contains case classes for json conversions
@@ -42,15 +46,22 @@ case class Interval(start: Long, end: Long)
  * @param alt alternate
  * @param end end of variant
  */
-case class VariantJson(contig: String, position: Long, end: Long, ref: String, alt: String, name: String)
+case class VariantJson(contig: String, position: Long, end: Long, ref: String, alt: String, names: Array[String])
 
 object VariantJson {
   def apply(variant: Variant): VariantJson = {
+
+    val x: Array[String] = variant.getNames.toArray().map(x => x.asInstanceOf[String])
+
+    //val namesArray = new ArrayL[String]()
+    //namesArray.add(variant.getNames.get(0))
+    //val finalNamesArray = namesArray.to
+
     VariantJson(variant.getContigName,
       variant.getStart,
       variant.getEnd, variant.getReferenceAllele,
       variant.getAlternateAllele,
-      variant.getNames.get(0))
+      x)
   }
 }
 
@@ -91,8 +102,15 @@ object GenotypeJson {
     print("\nAbout to do the extract")
     val tuple = parse(str).extract[GenotypeString]
     print("\nDone with extract")
+
     val nameList = new java.util.ArrayList[String]
-    nameList.add(tuple.variant.name)
+    for (x <- tuple.variant.names) {
+      nameList.add(x)
+    }
+
+    //val nameList = new java.util
+    // .ArrayList[String]
+    //nameList.add(tuple.variant.name)
 
     val variant = Variant.newBuilder()
       .setContigName(tuple.variant.contig)
