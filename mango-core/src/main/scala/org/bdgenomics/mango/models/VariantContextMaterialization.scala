@@ -98,13 +98,17 @@ class VariantContextMaterialization(@transient sc: SparkContext,
   def getJson(region: ReferenceRegion,
               showGenotypes: Boolean,
               binning: Int = 1): Map[String, String] = {
+    println("\n### In getJson at top ###\n")
     val data: RDD[(String, GenotypeJson)] = get(region)
 
     val binnedData: RDD[(String, GenotypeJson)] =
       if (binning <= 1) {
         if (!showGenotypes)
           data.map(r => (r._1, GenotypeJson(r._2.variant, null)))
-        else data
+        else {
+          println("\n### In getJson reutrning with Genotypes ###\n")
+          data
+        }
       } else {
         bin(data, binning)
           .map(r => {

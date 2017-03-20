@@ -23,11 +23,12 @@ import java.util
 import com.google.protobuf.Message
 import net.liftweb.json.Serialization.write
 import net.liftweb.json._
+import net.liftweb.json.Serialization.write
 import org.apache.spark.SparkContext
 import org.bdgenomics.adam.models.{ ReferenceRegion, SequenceDictionary }
 import org.bdgenomics.mango.core.util.{ VizCacheIndicator, VizUtils }
 import org.bdgenomics.mango.filters._
-import org.bdgenomics.mango.layout.{ GenotypeJson, VariantJson }
+import org.bdgenomics.mango.layout.{ GenotypeJson, GenotypeString, VariantJson }
 import org.bdgenomics.mango.models._
 import org.bdgenomics.utils.cli._
 import org.bdgenomics.utils.instrumentation.Metrics
@@ -38,8 +39,12 @@ import org.scalatra._
 import ga4gh.VariantServiceOuterClass
 import ga4gh.VariantServiceOuterClass.SearchVariantsRequest
 import ga4gh.VariantServiceOuterClass.SearchVariantsRequest.Builder
+import ga4gh.Variants.Variant
+import ga4gh.Variants.Variant.Builder
+import net.liftweb.json.JsonAST.JValue
+
 //import shaded.ga4gh.com.google.protobuf.Descriptors.FieldDescriptor
-import com.fasterxml.jackson.databind.ObjectMapper
+//import com.fasterxml.jackson.databind.ObjectMapper
 //import com.fasterxml.jackson.core.JsonGenerationException
 //import com.fasterxml.jackson.core
 //import com.fasterxml.jackson.core.`type`.TypeReference
@@ -499,49 +504,35 @@ class VizServlet extends ScalatraServlet {
 
   post("/ga4gh/variants/search") {
     VizTimers.VarRequest.time {
-      //val myData = params("variantSetId")
-      //print("from post myData: " + myData + "\n")
-      val jsonString = request.body
 
-      val mapper = new ObjectMapper()
+      val jsonPostString = request.body
 
-      //print("\n############\n")
-      //print("jsonString: " + jsonString)
-      //print("\n###########\n")
+      case class SearchVariantsRequestGA4GH(variantSetId: String,
+                                            start: String,
+                                            end: String,
+                                            pageSize: String,
+                                            pageToken: String,
+                                            referenceName: String,
+                                            callSetIds: List[String])
 
-      case class BDGSearchVariantRequest(variantSetId: String,
-                                         start: String,
-                                         end: String,
-                                         pageSize: String,
-                                         pageToken: String,
-                                         referenceName: String,
-                                         callSetIds: List[String])
+      //val jplift1 = net.liftweb.json.parse(jsonString)
+      //val jplift2 = jplift1.extract[BDGSearchVariantRequest]
 
-      val jplift1 = net.liftweb.json.parse(jsonString)
-      val jplift2 = jplift1.extract[BDGSearchVariantRequest]
-
-      print("###\nThis is jplift2: " + jplift2)
+      val searchVariantsRequest = net.liftweb.json.parse(jsonPostString)
+        .extract[SearchVariantsRequestGA4GH]
 
       if (!VizReads.variantsExist)
         VizReads.errors.notFound
       else {
 
-        // val viewRegion = ReferenceRegion(params("reference_name"), params("start").toLong,
-        //   VizUtils.getEnd(params("end").toLong, VizReads.globalDict(params("reference_name"))))
+        val viewRegion = ReferenceRegion(searchVariantsRequest.referenceName,
+          searchVariantsRequest.start.toLong,
+          VizUtils.getEnd(searchVariantsRequest.end.toLong,
+            VizReads.globalDict(searchVariantsRequest.referenceName)))
 
-        /*
-        val viewRegion = ReferenceRegion(  params("reference_name"),
-                                           params("start").toLong,
-                                           VizUtils.getEnd(params("end").toLong, VizReads.globalDict(params("reference_name")))
-                                         )
-*/
-        val viewRegion = ReferenceRegion(jplift2.referenceName,
-          jplift2.start.toLong,
-          VizUtils.getEnd(jplift2.end.toLong, VizReads.globalDict(jplift2.referenceName)))
-
-        print("\n### viewRegion: " + viewRegion)
-
+        //print("\n### viewRegion: " + viewRegion)
         //val key: String = jplift2.variantSetId
+
         val key: String = "ALL_chr17_7500000-7515000_phase3_shapeit2_mvncall_integrated_v5a_20130502_genotypes_vcf"
         contentType = "json"
 
@@ -558,18 +549,102 @@ class VizServlet extends ScalatraServlet {
           VizReads.variantsWait.synchronized {
             // region was already collected, grab from cache
             if (VizCacheIndicator(viewRegion, binning) != VizReads.variantsIndicator) {
+              println("\n### About to call getJson in the cache thing\n")
               VizReads.variantsCache = VizReads.variantContextData.get.getJson(viewRegion,
-                VizReads.showGenotypes,
-                binning)
+                true,
+                1)
               VizReads.variantsIndicator = VizCacheIndicator(viewRegion, binning)
             }
+
+            print("\n### About to assign results\n")
             results = VizReads.variantsCache.get(key)
           }
-          print("\n#### Results: " + results)
+          print("\n#!#!#! Results: " + results)
+          //val parsedVariantsResults = net.liftweb.json.parse(results.get).extract[VariantJson]
 
           if (results.isDefined) {
+            print("\n### Here in results defined\n")
+            @transient implicit val formats = net.liftweb.json.DefaultFormats
+            //@transient implicit val mf = Manifest[VariantJson]
+
+            val x: String = results.get
+
+            print("\n### Here is results.get: " + results.get + "\n")
+
+            val parsedVariantsResultsList: Seq[JValue] = net.liftweb.json.parse(results.get).children
+
+
+
+            for (z <- parsedVariantsResultsList) {
+              print("\n#parsing first: " + z)
+              //val z2: JValue = z
+
+              print("\nHere is z as a string: " + compact(render(z)).replaceAll("\\\\", "").replaceAll("^.|.$", ""))
+              val y = GenotypeJson(compact(render(z)).replaceAll("\\\\", "").replaceAll("^.|.$", ""))
+
+              print("\n#### About to print y")
+
+              print("\n###y as variant: " + y.variant.getStart)
+              print("\n###y as variant: " + y.variant.getNames.get(0))
+            }
+
+
+
+            //extract[List[GenotypeJson]]
+
+            //print("\n### parsedVariantsResults: " + parsedVariantsResults + "\n")
+
+            print("\n### Here After assigned parsedVariantsResults\n")
+
+            //val ga4ghVariantBuilder = ga4gh.Variants.Variant.newBuilder()
+            val ga4ghVariantBuilder = ga4gh.Variants.Variant.newBuilder()
+
+            //val x: String = parsedVariantsResults.variant.getContigName
+            ga4ghVariantBuilder.setVariantSetId("mango_variant_set_id_stub")
+            //  .setNames(0, parsedVariantsResults.variant.getNames.get(0))
+
+            //.setReferenceName(parsedVariantsResults.variant.getContigName)
+            //  .setStart(parsedVariantsResults.variant.getStart)
+            //  .setEnd(parsedVariantsResults.variant.getStart + parsedVariantsResults.variant.getReferenceAllele.length)
+            //  .setReferenceBases(parsedVariantsResults.variant.getReferenceAllele)
+            //  .setAlternateBases(0, parsedVariantsResults.variant.getAlternateAllele)
+
+            //.setReferenceBases(0,parsedVariantsResults.variant.getReferenceAllele)
+            //.setAlternateBases(0, parsedVariantsResults.variant.getAlternateAllele)
+
+            print("\n##### About to build###\n")
+            val ga4ghVariant: Variant = ga4ghVariantBuilder.build()
+
+            //We convert to a ga4gh schema defined variant above inorder to validate against the GA4GH defined
+            //schema, however as yet no clean way has been found to confer the protobuf defined ga4gh schema to
+            //Json for proto3.  As a temporary solution below we extract the GA4GH Variant fields into a simple
+            //case class, which we can then use liftweb.json to convert to JSON
+
+            case class GA4GHVariantJson(variant_set_id: String = "",
+                                        names: String = "", // this will be changed to a List[String]
+                                        reference_name: String = "",
+                                        start: Long = 0,
+                                        end: Long = 0,
+                                        reference_bases: String = "",
+                                        alternate_bases: String = "")
+
+            print("\n### Done building - about to assign myGA$GHVariantJSON\n")
+
+            val myGA4GHVariantJson = GA4GHVariantJson(ga4ghVariant.getVariantSetId //              ga4ghVariant.getNames(0) //ga4ghVariant.getReferenceName // ga4ghVariant.getStart,
+            //  ga4ghVariant.getEnd,
+            //  ga4ghVariant.getReferenceBases,
+            //  ga4ghVariant.getAlternateBases(0)
+            )
+
+            //@transient implicit val formats = net.liftweb.json.DefaultFormats
+
+            val ga4ghVariantJSONString = net.liftweb.json.Serialization.write(myGA4GHVariantJson)(formats)
+
+            print("####   Here is ha4ghVariantJSONString: " + ga4ghVariantJSONString)
+
+            Ok(ga4ghVariantJSONString)
             // extract variants only and parse to stringified json
-            Ok(results.get)
+            //Ok(results.get)
           } else VizReads.errors.noContent(viewRegion)
         } else VizReads.errors.outOfBounds
       }
