@@ -53,13 +53,10 @@ object VariantJson {
 
     val names: Array[String] = variant.getNames.toArray().map(x => x.asInstanceOf[String])
 
-    //val namesArray = new ArrayL[String]()
-    //namesArray.add(variant.getNames.get(0))
-    //val finalNamesArray = namesArray.to
-
     VariantJson(variant.getContigName,
       variant.getStart,
-      variant.getEnd, variant.getReferenceAllele,
+      variant.getEnd,
+      variant.getReferenceAllele,
       variant.getAlternateAllele,
       names)
   }
