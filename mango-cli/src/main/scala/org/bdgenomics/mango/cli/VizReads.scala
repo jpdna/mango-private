@@ -798,6 +798,7 @@ class VizReads(protected val args: VizReadsArgs) extends BDGSparkCommand[VizRead
       handlers.addHandler(new org.eclipse.jetty.webapp.WebAppContext("mango-cli/src/main/webapp", "/"))
       VizReads.server.start()
       println("View the visualization at: " + args.port)
+      println("Here is show_genotypes: " + VizReads.showGenotypes)
       println("Quit at: /quit")
 
       VizReads.server.join()

@@ -1,0 +1,739 @@
+{
+  "nextPageToken": "",
+  "variants": [
+    {
+      "info": {
+        "EUR_AF": [
+          "0.405600011349"
+        ],
+        "SAS_AF": [
+          "0.494899988174"
+        ],
+        "AC": [
+          "2130"
+        ],
+        "AA": [
+          "|||unknown(NO_COVERAGE)"
+        ],
+        "AF": [
+          "0.425318986177"
+        ],
+        "AFR_AF": [
+          "0.490900009871"
+        ],
+        "AMR_AF": [
+          "0.360199987888"
+        ],
+        "AN": [
+          "5008"
+        ],
+        "VT": [
+          "INDEL"
+        ],
+        "EAS_AF": [
+          "0.336299985647"
+        ],
+        "NS": [
+          "2504"
+        ],
+        "DP": [
+          "103152"
+        ]
+      },
+      "variantSetId": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIl0",
+      "end": "10177",
+      "calls": [
+        {
+          "info": {},
+          "genotype": [
+            1,
+            0
+          ],
+          "callSetId": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIiwiSEcwMDA5NiJd",
+          "phaseset": "True",
+          "genotypeLikelihood": [],
+          "callSetName": "HG00096"
+        }
+      ],
+      "created": "0",
+      "updated": "0",
+      "referenceBases": "A",
+      "start": "10176",
+      "names": [
+        "rs367896724"
+      ],
+      "alternateBases": [
+        "AC"
+      ],
+      "referenceName": "1",
+      "id": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIiwiMSIsIjEwMTc2IiwiZDAxNmM0ZTFhZGNhZDVkMWJjODljMmNhNGFkYmEzYTgiXQ"
+    },
+    {
+      "info": {
+        "EUR_AF": [
+          "0.0"
+        ],
+        "SAS_AF": [
+          "0.00510000018403"
+        ],
+        "AC": [
+          "6"
+        ],
+        "AA": [
+          "|||unknown(NO_COVERAGE)"
+        ],
+        "AF": [
+          "0.00119808001909"
+        ],
+        "AFR_AF": [
+          "0.0"
+        ],
+        "AMR_AF": [
+          "0.00139999995008"
+        ],
+        "AN": [
+          "5008"
+        ],
+        "VT": [
+          "INDEL"
+        ],
+        "EAS_AF": [
+          "0.0"
+        ],
+        "NS": [
+          "2504"
+        ],
+        "DP": [
+          "78015"
+        ]
+      },
+      "variantSetId": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIl0",
+      "end": "10235",
+      "calls": [
+        {
+          "info": {},
+          "genotype": [
+            0,
+            0
+          ],
+          "callSetId": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIiwiSEcwMDA5NiJd",
+          "phaseset": "True",
+          "genotypeLikelihood": [],
+          "callSetName": "HG00096"
+        }
+      ],
+      "created": "0",
+      "updated": "0",
+      "referenceBases": "T",
+      "start": "10234",
+      "names": [
+        "rs540431307"
+      ],
+      "alternateBases": [
+        "TA"
+      ],
+      "referenceName": "1",
+      "id": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIiwiMSIsIjEwMjM0IiwiMGNlMzUwNzI0NDYxNGMzNzA1ZjVlMmFhMmQxMGFmMjUiXQ"
+    },
+    {
+      "info": {
+        "EUR_AF": [
+          "0.426400005817"
+        ],
+        "SAS_AF": [
+          "0.419200003147"
+        ],
+        "AC": [
+          "2191"
+        ],
+        "AA": [
+          "|||unknown(NO_COVERAGE)"
+        ],
+        "AF": [
+          "0.4375"
+        ],
+        "AFR_AF": [
+          "0.47879999876"
+        ],
+        "AMR_AF": [
+          "0.410699993372"
+        ],
+        "AN": [
+          "5008"
+        ],
+        "VT": [
+          "INDEL"
+        ],
+        "EAS_AF": [
+          "0.430599987507"
+        ],
+        "NS": [
+          "2504"
+        ],
+        "DP": [
+          "88915"
+        ]
+      },
+      "variantSetId": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIl0",
+      "end": "10352",
+      "calls": [
+        {
+          "info": {},
+          "genotype": [
+            1,
+            0
+          ],
+          "callSetId": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIiwiSEcwMDA5NiJd",
+          "phaseset": "True",
+          "genotypeLikelihood": [],
+          "callSetName": "HG00096"
+        }
+      ],
+      "created": "0",
+      "updated": "0",
+      "referenceBases": "T",
+      "start": "10351",
+      "names": [
+        "rs555500075"
+      ],
+      "alternateBases": [
+        "TA"
+      ],
+      "referenceName": "1",
+      "id": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIiwiMSIsIjEwMzUxIiwiMGNlMzUwNzI0NDYxNGMzNzA1ZjVlMmFhMmQxMGFmMjUiXQ"
+    },
+    {
+      "info": {
+        "EUR_AF": [
+          "0.0"
+        ],
+        "SAS_AF": [
+          "0.0"
+        ],
+        "AC": [
+          "1"
+        ],
+        "AA": [
+          ".|||"
+        ],
+        "AF": [
+          "0.000199681002414"
+        ],
+        "AFR_AF": [
+          "0.00079999997979"
+        ],
+        "AMR_AF": [
+          "0.0"
+        ],
+        "AN": [
+          "5008"
+        ],
+        "VT": [
+          "SNP"
+        ],
+        "EAS_AF": [
+          "0.0"
+        ],
+        "NS": [
+          "2504"
+        ],
+        "DP": [
+          "9632"
+        ]
+      },
+      "variantSetId": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIl0",
+      "end": "10505",
+      "calls": [
+        {
+          "info": {},
+          "genotype": [
+            0,
+            0
+          ],
+          "callSetId": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIiwiSEcwMDA5NiJd",
+          "phaseset": "True",
+          "genotypeLikelihood": [],
+          "callSetName": "HG00096"
+        }
+      ],
+      "created": "0",
+      "updated": "0",
+      "referenceBases": "A",
+      "start": "10504",
+      "names": [
+        "rs548419688"
+      ],
+      "alternateBases": [
+        "T"
+      ],
+      "referenceName": "1",
+      "id": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIiwiMSIsIjEwNTA0IiwiNGFjY2RmYjZmNjkyZjQxYzMxNGQwOTI4NTg4MmE2ODkiXQ"
+    },
+    {
+      "info": {
+        "EUR_AF": [
+          "0.0"
+        ],
+        "SAS_AF": [
+          "0.0"
+        ],
+        "AC": [
+          "1"
+        ],
+        "AA": [
+          ".|||"
+        ],
+        "AF": [
+          "0.000199681002414"
+        ],
+        "AFR_AF": [
+          "0.00079999997979"
+        ],
+        "AMR_AF": [
+          "0.0"
+        ],
+        "AN": [
+          "5008"
+        ],
+        "VT": [
+          "SNP"
+        ],
+        "EAS_AF": [
+          "0.0"
+        ],
+        "NS": [
+          "2504"
+        ],
+        "DP": [
+          "9676"
+        ]
+      },
+      "variantSetId": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIl0",
+      "end": "10506",
+      "calls": [
+        {
+          "info": {},
+          "genotype": [
+            0,
+            0
+          ],
+          "callSetId": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIiwiSEcwMDA5NiJd",
+          "phaseset": "True",
+          "genotypeLikelihood": [],
+          "callSetName": "HG00096"
+        }
+      ],
+      "created": "0",
+      "updated": "0",
+      "referenceBases": "C",
+      "start": "10505",
+      "names": [
+        "rs568405545"
+      ],
+      "alternateBases": [
+        "G"
+      ],
+      "referenceName": "1",
+      "id": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIiwiMSIsIjEwNTA1IiwiYzYyZDBhM2E4MDIyZjgxNWRhOGY0Y2FiYTVjZWIzOGQiXQ"
+    },
+    {
+      "info": {
+        "EUR_AF": [
+          "0.0"
+        ],
+        "SAS_AF": [
+          "0.0"
+        ],
+        "AC": [
+          "1"
+        ],
+        "AA": [
+          ".|||"
+        ],
+        "AF": [
+          "0.000199681002414"
+        ],
+        "AFR_AF": [
+          "0.0"
+        ],
+        "AMR_AF": [
+          "0.00139999995008"
+        ],
+        "AN": [
+          "5008"
+        ],
+        "VT": [
+          "SNP"
+        ],
+        "EAS_AF": [
+          "0.0"
+        ],
+        "NS": [
+          "2504"
+        ],
+        "DP": [
+          "9869"
+        ]
+      },
+      "variantSetId": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIl0",
+      "end": "10511",
+      "calls": [
+        {
+          "info": {},
+          "genotype": [
+            0,
+            0
+          ],
+          "callSetId": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIiwiSEcwMDA5NiJd",
+          "phaseset": "True",
+          "genotypeLikelihood": [],
+          "callSetName": "HG00096"
+        }
+      ],
+      "created": "0",
+      "updated": "0",
+      "referenceBases": "G",
+      "start": "10510",
+      "names": [
+        "rs534229142"
+      ],
+      "alternateBases": [
+        "A"
+      ],
+      "referenceName": "1",
+      "id": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIiwiMSIsIjEwNTEwIiwiNDVjNGNmMDZjYjVjZGFiYTg1MTJhMTYxZTczMmI1YzIiXQ"
+    },
+    {
+      "info": {
+        "EUR_AF": [
+          "0.0010000000475"
+        ],
+        "SAS_AF": [
+          "0.0010000000475"
+        ],
+        "AC": [
+          "3"
+        ],
+        "AA": [
+          ".|||"
+        ],
+        "AF": [
+          "0.000599041988607"
+        ],
+        "AFR_AF": [
+          "0.0"
+        ],
+        "AMR_AF": [
+          "0.00139999995008"
+        ],
+        "AN": [
+          "5008"
+        ],
+        "VT": [
+          "SNP"
+        ],
+        "EAS_AF": [
+          "0.0"
+        ],
+        "NS": [
+          "2504"
+        ],
+        "DP": [
+          "9203"
+        ]
+      },
+      "variantSetId": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIl0",
+      "end": "10539",
+      "calls": [
+        {
+          "info": {},
+          "genotype": [
+            0,
+            0
+          ],
+          "callSetId": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIiwiSEcwMDA5NiJd",
+          "phaseset": "True",
+          "genotypeLikelihood": [],
+          "callSetName": "HG00096"
+        }
+      ],
+      "created": "0",
+      "updated": "0",
+      "referenceBases": "C",
+      "start": "10538",
+      "names": [
+        "rs537182016"
+      ],
+      "alternateBases": [
+        "A"
+      ],
+      "referenceName": "1",
+      "id": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIiwiMSIsIjEwNTM4IiwiMTg2ZjhiZTU3MTg2OWQ3Y2UzMmY4MDNlMGRlMjZlOTUiXQ"
+    },
+    {
+      "info": {
+        "EUR_AF": [
+          "0.0"
+        ],
+        "SAS_AF": [
+          "0.0"
+        ],
+        "AC": [
+          "1"
+        ],
+        "AA": [
+          ".|||"
+        ],
+        "AF": [
+          "0.000199681002414"
+        ],
+        "AFR_AF": [
+          "0.0"
+        ],
+        "AMR_AF": [
+          "0.0"
+        ],
+        "AN": [
+          "5008"
+        ],
+        "VT": [
+          "SNP"
+        ],
+        "EAS_AF": [
+          "0.0010000000475"
+        ],
+        "NS": [
+          "2504"
+        ],
+        "DP": [
+          "9007"
+        ]
+      },
+      "variantSetId": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIl0",
+      "end": "10542",
+      "calls": [
+        {
+          "info": {},
+          "genotype": [
+            0,
+            0
+          ],
+          "callSetId": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIiwiSEcwMDA5NiJd",
+          "phaseset": "True",
+          "genotypeLikelihood": [],
+          "callSetName": "HG00096"
+        }
+      ],
+      "created": "0",
+      "updated": "0",
+      "referenceBases": "C",
+      "start": "10541",
+      "names": [
+        "rs572818783"
+      ],
+      "alternateBases": [
+        "T"
+      ],
+      "referenceName": "1",
+      "id": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIiwiMSIsIjEwNTQxIiwiNjhkMTU1ZjQ0Mjg2NzQ4YWI2Njg4ZWQzOTNkZmY2MzQiXQ"
+    },
+    {
+      "info": {
+        "EUR_AF": [
+          "0.0"
+        ],
+        "SAS_AF": [
+          "0.0"
+        ],
+        "AC": [
+          "1"
+        ],
+        "AA": [
+          ".|||"
+        ],
+        "AF": [
+          "0.000199681002414"
+        ],
+        "AFR_AF": [
+          "0.00079999997979"
+        ],
+        "AMR_AF": [
+          "0.0"
+        ],
+        "AN": [
+          "5008"
+        ],
+        "VT": [
+          "SNP"
+        ],
+        "EAS_AF": [
+          "0.0"
+        ],
+        "NS": [
+          "2504"
+        ],
+        "DP": [
+          "5502"
+        ]
+      },
+      "variantSetId": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIl0",
+      "end": "10579",
+      "calls": [
+        {
+          "info": {},
+          "genotype": [
+            0,
+            0
+          ],
+          "callSetId": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIiwiSEcwMDA5NiJd",
+          "phaseset": "True",
+          "genotypeLikelihood": [],
+          "callSetName": "HG00096"
+        }
+      ],
+      "created": "0",
+      "updated": "0",
+      "referenceBases": "C",
+      "start": "10578",
+      "names": [
+        "rs538322974"
+      ],
+      "alternateBases": [
+        "A"
+      ],
+      "referenceName": "1",
+      "id": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIiwiMSIsIjEwNTc4IiwiMTg2ZjhiZTU3MTg2OWQ3Y2UzMmY4MDNlMGRlMjZlOTUiXQ"
+    },
+    {
+      "info": {
+        "EUR_AF": [
+          "0.994000017643"
+        ],
+        "SAS_AF": [
+          "0.99690002203"
+        ],
+        "AC": [
+          "4973"
+        ],
+        "AF": [
+          "0.993010997772"
+        ],
+        "AFR_AF": [
+          "0.989400029182"
+        ],
+        "AMR_AF": [
+          "0.995700001717"
+        ],
+        "AN": [
+          "5008"
+        ],
+        "VT": [
+          "INDEL"
+        ],
+        "EAS_AF": [
+          "0.991100013256"
+        ],
+        "NS": [
+          "2504"
+        ],
+        "DP": [
+          "2365"
+        ]
+      },
+      "variantSetId": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIl0",
+      "end": "10637",
+      "calls": [
+        {
+          "info": {},
+          "genotype": [
+            1,
+            1
+          ],
+          "callSetId": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIiwiSEcwMDA5NiJd",
+          "phaseset": "True",
+          "genotypeLikelihood": [],
+          "callSetName": "HG00096"
+        }
+      ],
+      "created": "0",
+      "updated": "0",
+      "referenceBases": "CCGCCGTTGCAAAGGCGCGCCG",
+      "start": "10615",
+      "names": [
+        "rs376342519"
+      ],
+      "alternateBases": [
+        "C"
+      ],
+      "referenceName": "1",
+      "id": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIiwiMSIsIjEwNjE1IiwiMjA1ZDA2MTg2OWY1NjAzMjc4MGYxMTYwOGI4YzEzYzciXQ"
+    },
+    {
+      "info": {
+        "EUR_AF": [
+          "0.0"
+        ],
+        "SAS_AF": [
+          "0.0"
+        ],
+        "AC": [
+          "21"
+        ],
+        "AA": [
+          ".|||"
+        ],
+        "AF": [
+          "0.00419329013675"
+        ],
+        "AFR_AF": [
+          "0.0129000004381"
+        ],
+        "AMR_AF": [
+          "0.00139999995008"
+        ],
+        "AN": [
+          "5008"
+        ],
+        "VT": [
+          "SNP"
+        ],
+        "EAS_AF": [
+          "0.00300000002608"
+        ],
+        "NS": [
+          "2504"
+        ],
+        "DP": [
+          "1360"
+        ]
+      },
+      "variantSetId": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIl0",
+      "end": "10642",
+      "calls": [
+        {
+          "info": {},
+          "genotype": [
+            0,
+            0
+          ],
+          "callSetId": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIiwiSEcwMDA5NiJd",
+          "phaseset": "True",
+          "genotypeLikelihood": [],
+          "callSetName": "HG00096"
+        }
+      ],
+      "created": "0",
+      "updated": "0",
+      "referenceBases": "G",
+      "start": "10641",
+      "names": [
+        "rs558604819"
+      ],
+      "alternateBases": [
+        "A"
+      ],
+      "referenceName": "1",
+      "id": "WyIxa2dlbm9tZXMiLCJ2cyIsInBoYXNlMy1yZWxlYXNlIiwiMSIsIjEwNjQxIiwiNDVjNGNmMDZjYjVjZGFiYTg1MTJhMTYxZTczMmI1YzIiXQ"
+    }
+  ]
+}

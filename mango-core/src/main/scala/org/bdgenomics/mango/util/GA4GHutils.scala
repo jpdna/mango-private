@@ -16,7 +16,9 @@ case class GA4GHVariantJson(id: String = "",
                             start: Long = 0,
                             end: Long = 0,
                             reference_bases: String = "",
-                            alternate_bases: String = "")
+                            alternate_bases: String = "",
+                            created: Long = 0,
+                            updated: Long = 0)
 
 case class SearchVariantsRequestGA4GH(variantSetId: String,
                                       start: String,
