@@ -57,7 +57,8 @@ import net.liftweb.json.JsonAST.JValue
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 
-case class GA4GHVariantJson(variant_set_id: String = "",
+case class GA4GHVariantJson(id: String = "",
+                            variant_set_id: String = "",
                             names: Array[String] = new Array[String](0), // this will be changed to a List[String]
                             reference_name: String = "",
                             start: Long = 0,
@@ -470,20 +471,14 @@ class VizServlet extends ScalatraServlet {
   }
 
   get("/variants/:key/:ref") {
-    print("Here was are in /variants/ end ppint")
     VizTimers.VarRequest.time {
       if (!VizReads.variantsExist)
         VizReads.errors.notFound
       else {
-        //print("Here is start: " + params("start").toLong)
-        //print("Before try end")
-        //print("Here is end: " + params("end").toLong)
-        //print("after try end")
-
         val viewRegion = ReferenceRegion(params("ref"), params("start").toLong,
           VizUtils.getEnd(params("end").toLong, VizReads.globalDict(params("ref"))))
 
-        print("\n### viewRegion: " + viewRegion)
+        //print("\n### viewRegion: " + viewRegion)
         // val viewRegion = ReferenceRegion(params("ref"), params("start").toLong,
         //  params("end").toLong, VizReads.globalDict(params("ref"))))
 
@@ -617,7 +612,7 @@ class VizServlet extends ScalatraServlet {
             GenotypeString(compact(render(f)).replaceAll("\\\\", "").replaceAll("^.|.$", ""))
           }) */
 
-            print("\n#### After map of resultsAsGentypeJSON" + resultsAsGenotypeJSON + "\n")
+            print("\n#### After map of resultsAsGentypeJSON: " + resultsAsGenotypeJSON + "\n")
 
             val resultsAsGA4GHVariant: Seq[Variant] = resultsAsGenotypeJSON.map((f: GenotypeJson) => {
 
@@ -627,6 +622,10 @@ class VizServlet extends ScalatraServlet {
               } */
 
               val ga4ghVariantBuilder = ga4gh.Variants.Variant.newBuilder()
+
+              var altBases = new java.util.ArrayList[String]();
+              altBases.add(f.variant.getAlternateAllele())
+
               ga4ghVariantBuilder.setVariantSetId("mango_variant_set_id_stub")
                 .addAllNames(f.variant.getNames())
                 //.addAllNames(f.variant.getNames)
@@ -634,23 +633,26 @@ class VizServlet extends ScalatraServlet {
                 .setStart(f.variant.getStart)
                 .setEnd(f.variant.getStart + f.variant.getReferenceAllele.length)
                 .setReferenceBases(f.variant.getReferenceAllele)
-              // .setAlternateBases(0, f.variant.getAlternateAllele)
+                //.setAlternateBases(0, f.variant.getAlternateAllele)
+                //.setAlternateBases(0, "dude")
+                .addAllAlternateBases(altBases)
               ga4ghVariantBuilder.build()
 
             })
 
+            print("\n!!!!!!!\n")
             print("\n#!%!%!%&! After map assignement of reultsAsGA$GHVariant" + resultsAsGA4GHVariant + "\n")
 
             val resultsAsGA4GHVariantJson: Seq[GA4GHVariantJson] = resultsAsGA4GHVariant.map(f => {
-              GA4GHVariantJson(f.getVariantSetId,
+              GA4GHVariantJson("",
+                f.getVariantSetId,
                 //f.getNamesList.asScala.map(x => x.toString).toArray,
                 f.getNamesList.asScala.toArray,
                 f.getReferenceName,
                 f.getStart,
                 f.getEnd,
                 f.getReferenceBases,
-                "stubaltbases")
-              //f.getAlternateBases(0))
+                f.getAlternateBases(0))
             })
 
             print("\n#### After map assignment of resultsASGA4GHVariantJSON" + resultsAsGA4GHVariantJson + "\n")

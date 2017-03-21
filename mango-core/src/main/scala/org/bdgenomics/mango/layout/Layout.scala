@@ -51,7 +51,7 @@ case class VariantJson(contig: String, position: Long, end: Long, ref: String, a
 object VariantJson {
   def apply(variant: Variant): VariantJson = {
 
-    val x: Array[String] = variant.getNames.toArray().map(x => x.asInstanceOf[String])
+    val names: Array[String] = variant.getNames.toArray().map(x => x.asInstanceOf[String])
 
     //val namesArray = new ArrayL[String]()
     //namesArray.add(variant.getNames.get(0))
@@ -61,7 +61,7 @@ object VariantJson {
       variant.getStart,
       variant.getEnd, variant.getReferenceAllele,
       variant.getAlternateAllele,
-      x)
+      names)
   }
 }
 
