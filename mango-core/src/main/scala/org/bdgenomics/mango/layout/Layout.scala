@@ -18,14 +18,9 @@
  */
 package org.bdgenomics.mango.layout
 
-import java.util
-
 import net.liftweb.json.Serialization.write
 import net.liftweb.json._
 import org.bdgenomics.formats.avro.Variant
-import java.util.ArrayList
-import collection.JavaConverters._
-import collection.mutable._
 
 /**
  * This file contains case classes for json conversions
@@ -104,10 +99,6 @@ object GenotypeJson {
     for (x <- tuple.variant.names) {
       nameList.add(x)
     }
-
-    //val nameList = new java.util
-    // .ArrayList[String]
-    //nameList.add(tuple.variant.name)
 
     val variant = Variant.newBuilder()
       .setContigName(tuple.variant.contig)

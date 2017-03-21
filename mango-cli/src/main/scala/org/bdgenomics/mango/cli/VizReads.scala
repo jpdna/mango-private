@@ -44,6 +44,7 @@ import ga4gh.Variants.Variant.Builder
 import net.liftweb.json.JsonAST.JValue
 
 import org.bdgenomics.mango.core.util.GA4GHutils
+import org.bdgenomics.mango.core.util.SearchVariantsRequestGA4GH
 
 //import shaded.ga4gh.com.google.protobuf.Descriptors.FieldDescriptor
 //import com.fasterxml.jackson.databind.ObjectMapper
@@ -528,14 +529,6 @@ class VizServlet extends ScalatraServlet {
     VizTimers.VarRequest.time {
 
       val jsonPostString = request.body
-
-      case class SearchVariantsRequestGA4GH(variantSetId: String,
-                                            start: String,
-                                            end: String,
-                                            pageSize: String,
-                                            pageToken: String,
-                                            referenceName: String,
-                                            callSetIds: List[String])
 
       val searchVariantsRequest = net.liftweb.json.parse(jsonPostString)
         .extract[SearchVariantsRequestGA4GH]

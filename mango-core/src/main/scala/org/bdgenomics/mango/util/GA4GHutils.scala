@@ -15,6 +15,14 @@ case class GA4GHVariantJson(id: String = "",
                             reference_bases: String = "",
                             alternate_bases: String = "")
 
+case class SearchVariantsRequestGA4GH(variantSetId: String,
+                                      start: String,
+                                      end: String,
+                                      pageSize: String,
+                                      pageToken: String,
+                                      referenceName: String,
+                                      callSetIds: List[String])
+
 object GA4GHutils {
   def genotypeStringJsonToGA4GH(genotypeStringJSON: String): String = {
     val parsedJSON: Seq[JValue] = net.liftweb.json.parse(genotypeStringJSON).children
