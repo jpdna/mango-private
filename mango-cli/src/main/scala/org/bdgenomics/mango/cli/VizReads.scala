@@ -63,29 +63,6 @@ import org.bdgenomics.mango.core.util.GA4GHVariantJson
 
 import scala.collection.mutable
 
-/*
-case class GA4GHVariantJson(id: String = "",
-                            variant_set_id: String = "",
-                            names: Array[String] = new Array[String](0), // this will be changed to a List[String]
-                            reference_name: String = "",
-                            start: Long = 0,
-                            end: Long = 0,
-                            reference_bases: String = "",
-                            alternate_bases: String = "") /*{
-
-                            */
-                            *
-
-              override def toString(): String = {
-
-                // required for writing json
-                @transient implicit val formats = net.liftweb.json.DefaultFormats
-
-                write(variant_set_id)(formats)
-              }
-
-            }*/
-
 object VizTimers extends Metrics {
   //HTTP requests
   val ReadsRequest = timer("GET reads")
@@ -161,6 +138,7 @@ object VizReads extends BDGCommandCompanion with Logging {
   var variantsCache: Map[String, String] = Map.empty[String, String]
   var variantsIndicator = VizCacheIndicator(region, 1)
   var showGenotypes: Boolean = false
+  var currVariantPaths = ""
 
   // features cache
   object featuresWait
@@ -568,7 +546,7 @@ class VizServlet extends ScalatraServlet {
           }
 
           if (results.isDefined) {
-            val ga4ghVariantJSONString = GA4GHutils.genotypeStringJsonToGA4GH(results.get)
+            val ga4ghVariantJSONString = GA4GHutils.genotypeStringJsonToGA4GH(results.get, VizReads.currVariantPaths)
 
             Ok(ga4ghVariantJSONString)
             // extract variants only and parse to stringified json
@@ -724,6 +702,7 @@ class VizReads(protected val args: VizReadsArgs) extends BDGSparkCommand[VizRead
     def initVariantContext() = {
       // set flag for visualizing genotypes
       VizReads.showGenotypes = args.showGenotypes
+      VizReads.currVariantPaths = args.variantsPaths
 
       if (Option(args.variantsPaths).isDefined) {
         val variantsPaths = args.variantsPaths.split(",").toList
@@ -820,54 +799,6 @@ class VizReads(protected val args: VizReadsArgs) extends BDGSparkCommand[VizRead
       VizReads.server.start()
       println("View the visualization at: " + args.port)
       println("Quit at: /quit")
-
-      ////////////////////////////////
-      // Temporary code to test the GA4GH schema PB derived classes
-      /*
-      val x: Builder = VariantServiceOuterClass.SearchVariantsRequest.newBuilder()
-      x.setVariantSetId("jp123varsetID")
-      //x.setCallSetIds(0,"jpcallset1")
-      x.addAllCallSetIds(List("jocallset1", "jpcallset2").asJava)
-      x.setReferenceName("myref")
-      x.setStart(223)
-      x.setEnd(999)
-  */
-      //val z: SearchVariantsRequest = x.build()
-      //val z1: java.util.Map[FieldDescriptor, AnyRef] = z.getAllFields
-      //val z3: mutable.Map[String, AnyRef] = z1.asScala map {
-      //  case (key, value) => {
-      //    (key.toString.replace("ga4gh.SearchVariantsRequest.", ""), value)
-      //  }
-      // }
-
-      //SearchVariantsRequest.t
-
-      //val jp1 = new com.google.protobuf.util.JsonFormat.Printer()
-      //z.
-      //val jp2 = jp1.print(z.)
-
-      /*
-
-      val p: ProtocolStringList = x.getCallSetIdsList()
-
-      val mySearchVariantsRequest: util.Map[String, Any] = Map("variant_set_id" -> x.getVariantSetId(),
-        "call_set_ids" -> x.getCallSetIdsList,
-        "start" -> x.getStart()).asJava
-
-      print("print direct mySearchVariantsRquest:" + mySearchVariantsRequest + "\n\n")
-
-      val mapper = new ObjectMapper()
-      val myJsonString: String = mapper.writeValueAsString(mySearchVariantsRequest)
-      print("myJsonString: " + myJsonString)
-      print("dude!!!!")
-    */
-
-      //print("z3" + z3)
-
-      //val p: String = com.google.protobuf.util.JsonFormat.printer().print(z.)
-      //print("p: " + p)
-      //print("z1.toString: " + z1.toString)
-      ///////////////////////////////
 
       VizReads.server.join()
     }

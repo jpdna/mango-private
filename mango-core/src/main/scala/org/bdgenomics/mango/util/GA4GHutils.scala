@@ -1,10 +1,13 @@
 package org.bdgenomics.mango.core.util
 
+import com.google.protobuf.Message
 import net.liftweb.json.JsonAST.JValue
 import net.liftweb.json.{ compact, render }
 import org.bdgenomics.mango.layout.GenotypeJson
 import ga4gh.Variants.Variant
+
 import scala.collection.JavaConverters._
+import com.google.protobuf.util.JsonFormat.Printer
 
 case class GA4GHVariantJson(id: String = "",
                             variant_set_id: String = "",
@@ -21,10 +24,13 @@ case class SearchVariantsRequestGA4GH(variantSetId: String,
                                       pageSize: String,
                                       pageToken: String,
                                       referenceName: String,
-                                      callSetIds: List[String])
+                                      callSetIds: Array[String] = new Array[String](0))
+
+case class SearchVariantsResponseGA4GH(variants: Array[GA4GHVariantJson] = new Array[GA4GHVariantJson](0),
+                                       next_page_token: String = "")
 
 object GA4GHutils {
-  def genotypeStringJsonToGA4GH(genotypeStringJSON: String): String = {
+  def genotypeStringJsonToGA4GH(genotypeStringJSON: String, datasetkey: String): String = {
     val parsedJSON: Seq[JValue] = net.liftweb.json.parse(genotypeStringJSON).children
 
     val resultsAsGenotypeJSON: Seq[GenotypeJson] = parsedJSON.map(f => {
@@ -50,10 +56,17 @@ object GA4GHutils {
       ga4ghVariantBuilder.build()
     })
 
+    //val testVarPN: Variant = resultsAsGA4GHVariant(0)
+    //val x = com.google.protobuf.util.JsonFormat.printer.print(testVarPN)
+    //print("#!#!!#!: " + x)
+
     // Convert the ga4ghVariant into a custom case class GA4GHVariantJSON
-    // because currently we have trouble getting the proto3 defined object to generate JSON
+    // note: this is because currently we have trouble getting the proto3 defined object to generate JSON
+    // this ouught to work: val x = com.google.protobuf.util.JsonFormat.printer.print(resultsAsGA4GHVariant(0))
+    // but apparently a GeneratedMessageV3 is not a Message
+
     val resultsAsGA4GHVariantJson: Seq[GA4GHVariantJson] = resultsAsGA4GHVariant.map(f => {
-      GA4GHVariantJson("",
+      GA4GHVariantJson(datasetkey + "_" + f.getReferenceName + "_" + f.getStart + "_" + f.getEnd + "_" + f.getReferenceBases + "_" + f.getAlternateBases(0),
         f.getVariantSetId,
         f.getNamesList.asScala.toArray,
         f.getReferenceName,
@@ -65,8 +78,11 @@ object GA4GHutils {
 
     @transient implicit val formats = net.liftweb.json.DefaultFormats
 
+    val response = SearchVariantsResponseGA4GH(resultsAsGA4GHVariantJson.toArray)
+
+    val ga4ghVariantJSONString = net.liftweb.json.Serialization.write(response)(formats)
     //write JSON string
-    val ga4ghVariantJSONString = net.liftweb.json.Serialization.write(resultsAsGA4GHVariantJson(0))(formats)
+    //val ga4ghVariantJSONString = net.liftweb.json.Serialization.write(resultsAsGA4GHVariantJson)(formats)
 
     ga4ghVariantJSONString
   }
